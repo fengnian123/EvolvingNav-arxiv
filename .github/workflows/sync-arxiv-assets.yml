@@ -75,3 +75,5 @@ jobs:
           fi
           git commit -m "Sync full-resolution paper assets"
           git push
+
+# Trigger asset synchronization through a merged PR.
