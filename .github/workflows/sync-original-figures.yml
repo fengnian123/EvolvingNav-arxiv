@@ -1,0 +1,56 @@
+name: Sync original paper figures
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync-original-figures:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout arXiv repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Restore original EvolvingNav paper figures
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p figures
+          base="https://raw.githubusercontent.com/fengnian123/DR-AgentOS/main/figures"
+          files=(
+            "EvolvingWorldNav.pdf"
+            "Real_World_Case_third_1.pdf"
+            "Real_World_Case_third_2.pdf"
+            "Real_World_Case_third_3.pdf"
+            "Real_World_Case_1.pdf"
+            "Real_World_Case_2.pdf"
+          )
+          for f in "${files[@]}"; do
+            echo "Downloading $f"
+            curl -fL --retry 5 --retry-delay 2 "$base/$f" -o "figures/$f"
+            test -s "figures/$f"
+          done
+
+      - name: Verify and commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          for f in             figures/EvolvingWorldNav.pdf             figures/Real_World_Case_third_1.pdf             figures/Real_World_Case_third_2.pdf             figures/Real_World_Case_third_3.pdf             figures/Real_World_Case_1.pdf             figures/Real_World_Case_2.pdf; do
+            test -s "$f"
+          done
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add figures
+          if git diff --cached --quiet; then
+            echo "Original figures already present."
+            exit 0
+          fi
+          git commit -m "Restore original paper figures"
+          git push

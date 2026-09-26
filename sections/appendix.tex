@@ -57,7 +57,7 @@ containing a validity interval, candidate state, confidence, visual feature, and
 
 \begin{figure}[!t]
     \centering
-    \includegraphics[width=\linewidth]{figures/p4d_temporal_evolution.pdf}
+    \includegraphics[width=\linewidth]{figures/EvolvingWorldNav.pdf}
     \caption{Temporally versioned 4D memory construction.}
     \label{fig:memory}
 \end{figure}
@@ -772,8 +772,10 @@ Retrieval + Reasoning & 31.3 & 40.6 & 25.1 & 21.9 & 34.4 & 75.5 \\
 
 \begin{figure*}[!t]
     \centering
-    \includegraphics[width=0.88\textwidth]{figures/real_indoor_frame.jpg}
-    \caption{Representative frame from the indoor cup-search evaluation.}
+    \includegraphics[width=0.92\textwidth]{figures/Real_World_Case_third_2.pdf}
+    \vspace{2pt}
+    \includegraphics[width=0.92\textwidth]{figures/Real_World_Case_third_3.pdf}
+    \caption{Indoor cup search with predictive belief (top) and stale Last Seen memory (bottom).}
     \label{fig:real-world-cup-comparison}
 \end{figure*}
 
@@ -848,8 +850,8 @@ platform parity.
 The outdoor comparison in \cref{fig:real-world-car-case} isolates stale memory
 in a car-search task: Last Seen revisits the previous entrance-side parking
 location and observes that the target is absent, whereas \evolvingworldnav{}
-reaches its current location. The indoor cup-search trace in
-\cref{fig:real-world-cup-comparison} illustrates the same failure mode for a cup:
+reaches its current location. The two-row indoor comparison in
+\cref{fig:real-world-cup-comparison} shows the same failure mode for a cup:
 \evolvingworldnav{} routes to the predicted office location, while Last Seen
 first inspects the now-empty pantry rack. These traces visualize representative
 outcomes and do not add observations to the aggregate success-rate measurements.
@@ -870,15 +872,15 @@ evidence for the predictive-belief module.
 
 \begin{figure}[!t]
     \centering
-    \includegraphics[width=\textwidth]{figures/real_indoor_frame.jpg}
-    \caption{Representative frame from the long-horizon indoor document-delivery execution.}
+    \includegraphics[width=\textwidth]{figures/Real_World_Case_1.pdf}
+    \caption{Long-horizon indoor document-delivery execution.}
     \label{fig:real-world-indoor-long-horizon}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{figures/real_outdoor_frame.jpg}
-    \caption{Representative frame from the long-horizon outdoor shared-bike search.}
+    \includegraphics[width=\textwidth]{figures/Real_World_Case_2.pdf}
+    \caption{Long-horizon outdoor shared-bike search.}
     \label{fig:real-world-outdoor-long-horizon}
 \end{figure}
 
