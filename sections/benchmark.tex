@@ -1,0 +1,84 @@
+\section{EvoWorld-Bench: Evaluating Navigation in Evolving Worlds}
+\label{sec:benchmark}
+
+\evolvingworldbench{} evaluates decisions based on time-ordered histories while the
+world changes outside observation. Its 54 scenes and 803.68k task instances
+combine persistent histories, executable placements, and controlled dynamics.
+
+\subsection{Tasks and Controlled Dynamics}
+
+At the task-modality level in \cref{fig:evolvingworldnav_overview}, the pool
+comprises object search (17\%), object navigation (27\%), vision-and-language
+navigation (VLN; 26\%), and embodied question answering (EQA; 30\%)
+\citep{majumdar2024openeqa,sakamoto2024map}. These labels describe task goals;
+the protocols below distinguish prediction, search, evidence, and online dynamics.
+
+\Needspace{0.20\textheight}
+\begin{wrapfigure}{r}{0.58\textwidth}
+    \centering
+    \vspace{-8pt}
+    \includegraphics[width=\linewidth]{figures/P4D_Benchmark.pdf}
+    \caption{Overview of \evolvingworldbench{} evaluation protocols.}
+    \label{fig:p4dbench}
+\end{wrapfigure}
+
+The complementary breakdown by evaluation protocol in \cref{fig:p4dbench}
+comprises N1 (13.51\%), N2
+(13.37\%), N3 (13.27\%), N4 (26.52\%), N5 (3.34\%), and EQA (29.99\%). In this
+second view, VLN-conditioned episodes are assigned to their corresponding
+navigation protocol rather than a separate category. Prediction evaluates the
+region/receptacle belief independently of control; navigation uses the same
+target--time queries (\cref{fig:p4dbench,tab:tasks}). N1 inspects the Top-1
+destination; N2 uses the full belief for cost-aware search; N3 adds
+visibility-qualified updates and recovery. N1--N3 fix the target after the
+query. N4 advances the world clock during execution, permitting further hidden
+transitions. N5 applies these protocols to held-out scenes and households.
+
+VLN grounds language goals in the same histories; EQA probes current and
+historical states without future evidence. Our experiments emphasize prediction
+and navigation, with EQA as a memory diagnostic. Controlled comparisons match public
+observations, candidates, geometry, starts, controllers, and budgets.
+
+Paired \emph{static}, \emph{routine}, and \emph{random} worlds share public setup
+variables. Static preserves the last supported state; routine follows household
+dynamics; random matches legal candidates and marginal movement statistics while
+removing temporal dependencies. Improvements specific to routine worlds thus
+support the use of historical regularity over category frequency or spatial
+convenience.
+
+\subsection{World Construction and Past-Only Evaluation}
+\begin{wrapfigure}{r}{0.50\textwidth}
+    \centering
+    \vspace{-6pt}
+    \includegraphics[width=\linewidth]{figures/dataset-generate.pdf}
+    \caption{Construction of \evolvingworldbench{}.}
+    \label{fig:p4dbench-generation}
+\end{wrapfigure}
+
+Human traces constrain generation; source trajectories are not copied
+(\cref{fig:p4dbench-generation}). CASAS supplies longitudinal occupancy and
+timing statistics; ARAS and OPPORTUNITY add activity-context coverage; and
+HD-EPIC and ParaHome provide object--action and motion evidence
+\citep{cook2013casas,perrett2025hdepic,kim2025parahome}. HOMER+ is tracked
+separately as simulated long-horizon routine evidence \citep{patel2023routine}.
+Event records preserve source identifiers and distinguish measured,
+environment-derived, simulated, and benchmark-authored quantities
+(\appref{app:benchmark-construction}).
+
+Across 54 HSSD scenes \citep{khanna2024hssd}, household habits and stochastic
+exceptions generate chronological histories. Stable, routine,
+personal, and irregular regimes test persistence, activity regularity,
+owner-specific habits, and uncertainty (\cref{tab:mobility-regimes}); regime labels
+remain hidden from the agent. Habitat replay ensures semantically valid, collision-free placements
+and reachable inspection viewpoints.
+
+Patrols collect visibility-qualified RGB-D observations using only maps, time, travel cost,
+and observed history. Queries expose only observations available by the query
+time, the last supported
+state, elapsed/calendar time, candidates, and spatial context; current states,
+transitions, activities, mobility labels, and oracle viewpoints remain private.
+Splits group complete temporal sequences, paired worlds, and near-duplicate
+query/transition groups. Audits cover temporal and metadata leakage, split overlap,
+paired-world consistency, physical validity, and patrol access to hidden state.
+Stratification covers mobility, transition, staleness, spatial difficulty, and
+generalization.

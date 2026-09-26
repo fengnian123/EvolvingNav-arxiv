@@ -1,0 +1,47 @@
+\section{Experiments}
+\label{sec:experiments}
+
+We test whether predictive 4D memory improves current-state inference,
+embodied search, and recovery when observations contradict prior beliefs. Controlled
+\evolvingworldbench{} and robot comparisons use the same public histories, legal candidates,
+inspection viewpoints, low-level control, and action budgets. Cross-environment
+evaluations retain the native policies of released agents and provide
+system-level generalization evidence. Component ablations support causal
+comparisons. Further protocol, implementation, and analysis details are
+summarized in Appendices~A--D.
+
+\subsection{Setup}
+\label{sec:setup}
+
+\paragraph{Datasets.}
+Our primary evaluation uses the complete \evolvingworldbench{} N1--N5 suite for
+First-Inspection navigation, belief-guided search, evidence-aware replanning,
+online dynamics, and cross-scene transfer. FindingDory
+\citep{yadav2025findingdory} and GOAT-Bench \citep{khanna2024goatbench} test
+long-horizon memory and repeated-goal navigation. We additionally evaluate one
+native task in each of MP3D, HM3D, Habitat-GS, and InteriorGS, and run 64
+matched LYNX M20 trials per method.
+
+\paragraph{Real-world setup.}
+We use the DEEP Robotics LYNX M20 for the primary quantitative
+evaluation over 64 matched trials, with X30 and Lite3 evaluated on matched
+32-block transfer subsets. Platform-specific perception and low-level
+navigation use a common interface, and all methods receive
+identical pre-query histories, candidate locations, start conditions, and
+robot-specific control stacks. Each 360-second episode requires online
+target confirmation within three inspections.
+
+\paragraph{Controllers and baselines.}
+Our main method uses a frozen GPT-5.6-Luna controller in a zero-shot setting:
+the VLM receives no navigation-task fine-tuning and invokes the fixed memory,
+prediction, inspection, exploration, and navigation tools. The prompt, tool
+interface, and inference budget remain fixed within each comparison. Baselines
+span navigation, structured memory, and predictive world models; paired runs
+with GPT-4o, GPT-5.5, GPT-5.6-Luna, and Qwen2.5-VL-3B/32B test controller
+dependence.
+
+\paragraph{Metrics.}
+We evaluate prediction using Top-1, MRR, NLL, ECE, and true-state rank, and navigation using SR,
+SPL, First-Inspection SR, Recovery SR, inspection count, distance, and time. Main
+comparisons report five-seed variation; paired static, routine, and random
+worlds isolate learnable temporal structure. 

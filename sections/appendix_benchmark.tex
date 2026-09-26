@@ -1,0 +1,211 @@
+\subsection{Construction and Audit Details}
+\label{app:benchmark-construction}
+
+\paragraph{Design principles.}
+\evolvingworldbench{} follows four principles: temporal continuity, past-only observability,
+physical executability, and controlled dynamics. Examples are sampled from
+persistent scene histories rather than independent placements. Public memories
+contain only evidence available to the robot by the query time. Candidate states
+must admit collision-free placements and reachable, visibility-checked inspection
+viewpoints. Paired worlds hold the scene, target, query, and marginal placement
+factors fixed while varying the hidden transition mechanism. Together, these
+controls separate predictive reasoning from scene frequency, route geometry,
+and privileged simulator access.
+
+\paragraph{Source alignment and accounting.}
+Source records constrain the generator rather than serving as episode templates.
+We distinguish raw source rows or sequences ($N_{\rm raw}$), records after
+normalization specific to each source ($N_{\rm std}$), distinct normalized records
+referenced by at least one retained generation rule ($N_{\rm used}$), and total
+rule references with reuse allowed ($N_{\rm ref}$). Table~\ref{tab:source-accounting}
+reports counts from the audited consumption manifests; reuse therefore does not
+inflate the number of independent source observations.
+
+\begin{wraptable}{r}{0.45\linewidth}
+\vspace{-0.8\baselineskip}
+\caption{Audited source contributions.}
+\label{tab:source-accounting}
+\centering
+\scriptsize
+\setlength{\tabcolsep}{1.25pt}
+\begin{tabular}{lrrrr}
+\toprule
+\textbf{Source} & $\mathbf{N_{\rm raw}}$ & $\mathbf{N_{\rm std}}$ & $\mathbf{N_{\rm used}}$ & $\mathbf{N_{\rm ref}}$ \\
+\midrule
+CASAS Aruba & 1,602,820 & 20,252 & 428 & 480 \\
+ARAS & 5,184,000 & 5,080 & 312 & 360 \\
+HD-EPIC & 59,454 & 10,786 & 742 & 864 \\
+ParaHome & 212 seq. & 860 & 186 & 216 \\
+OPPORTUNITY & 869,387 & 2,551 & 318 & 372 \\
+HOMER+ (sim.) & 65 seq. & 1,991 & 356 & 420 \\
+\bottomrule
+\end{tabular}
+\end{wraptable}
+
+
+The raw record unit is a sensor row for CASAS, ARAS, and OPPORTUNITY, an annotation row
+for HD-EPIC, and a sequence for ParaHome and HOMER+. CASAS events are mapped to
+the room ontology and split into sessions at inactivity gaps exceeding 900 seconds;
+the resulting occupancy, time-of-day, and weekday statistics parameterize
+household schedules. ARAS and OPPORTUNITY sensor streams are segmented into
+activity intervals and normalized to the shared activity, room, and object
+vocabularies, supplying complementary activity compatibility and temporal-context
+statistics. HD-EPIC narration verbs and nouns are mapped through canonical
+action and object aliases to estimate object--action frequencies, without
+assigning HSSD destinations. ParaHome annotations and object transforms provide
+displacement and transition-timing evidence. HOMER+ remains explicitly marked
+as simulated and contributes only long-horizon activity order and terminal-state
+priors, not independent human observations or test-time model inputs.
+
+\paragraph{Mapping rules and measured parameters.}
+All adapters emit a common schema containing time, activity, actor context,
+object category, source state, destination state, and provenance. Measured
+quantities comprise CASAS occupancy timing, ARAS/OPPORTUNITY activity context,
+HD-EPIC action--object frequencies, ParaHome displacement and transition timing,
+and HOMER+ simulated order priors. Legal receptacles, reachable
+viewpoints, and collision-free placements are derived from HSSD geometry.
+Category-to-receptacle allowlists, affordance constraints, stochastic exception
+rates, paired static/routine/random interventions, the 90-day horizon, and query
+sampling are benchmark-authored and labeled as such. Thus no source trajectory
+is copied verbatim and no source count is expanded into a claimed number of
+independent human observations. The final manifest spans 54 scenes and 4,860
+scene-days and contains approximately 239.19k dynamic state changes and 803.68k
+task instances after physical-validity, observability, and leakage audits.
+
+\paragraph{Household generation and behavioral checks.}
+For each HSSD scene \citep{khanna2024hssd}, resident schedules, room preferences,
+orderliness, object ownership, and placement habits are fixed at the household
+level. Activities, resident region trajectories, and object transitions are
+generated jointly in chronological order over multiple days; stochastic
+events, delayed returns, and exceptions prevent deterministic evolution.
+Household profiles, transition rules, and task templates instantiate executable
+N1--N5, VLN, and EQA episodes. Every relocation is attributed to an activity,
+resident transition, object lifecycle event, or tidying event. Personal objects
+alternate between placed and carried states with owner-specific return habits;
+irregular objects use affordance-valid destinations without temporal or
+actor-specific predictability. Audits check that personal objects do not simply
+track their owners and that actor or activity identity does not predict irregular
+destinations beyond affordance. The audited configuration yields 42.6 region
+transitions per resident-day, 6.56 relocations per personal object-day, 52.6\%
+within-region relocations, and zero terminal collisions.
+
+The realized transition density in \cref{fig:routine-random-heatmaps} provides a
+direct check of the paired-world intervention. Routine worlds retain repeatable,
+activity-linked time bands, whereas random worlds spread changes across the day
+while matching the marginal movement process. The control therefore removes
+predictable temporal structure without changing the 90-day horizon or scene setup.
+The ``Change rate'' color scale is the mean number of object relocations per
+scene-day in each one-hour time-of-day bin.
+
+\begin{figure}[!t]
+    \centering
+    \includegraphics[width=0.94\linewidth]{figures/routine_vs_random_temporal_heatmaps.pdf}
+    \caption{Temporal change density in paired routine and random worlds.}
+    \label{fig:routine-random-heatmaps}
+\end{figure}
+
+\subsection{Automated Audit and Human Spot Checks}
+\label{app:human-review}
+
+All generated episodes undergo automated quality checks before retention. The
+checks verify entity identity and event ordering, legal and collision-free
+placements, reachable candidate viewpoints, consistency between world states
+and rendered observations, and the query-time cutoff that prevents future
+information from entering public histories. They also verify target--episode
+correspondence, valid not-found tracks, and task budgets that permit executable
+search. Failed episodes are regenerated or excluded; the audit manifest records
+the check outcomes for every retained episode.
+
+Human assessment uses stratified spot checks rather than reviewing every
+episode. Five trained researchers sample across data sources, scenes, mobility
+regimes, and task types. Using a structured checklist, they assess the
+plausibility of relocation reasons and household routines, the semantic
+consistency of negative evidence, and the clarity and relevance of language
+goals. A supervising researcher adjudicates disputed or high-risk sampled
+cases. Reviewers record accept, revise, or reject decisions for the sampled
+items; systematic issues prompt corrections to the generation rules and
+renewed automated checks of the affected episodes. The human review log
+identifies the sampled items and decisions, while the automated manifest
+accounts for the full retained set.
+
+\paragraph{Candidate metadata and query sampling.}
+Chronological Habitat replay records navigability, geodesic cost, camera frustum
+coverage, unoccluded target fraction, and success viewpoints for each candidate.
+These fields support the physical validity and visibility checks described in
+\appref{app:audit}; candidates without collision-free placements and reachable
+inspection viewpoints are excluded. Query times are sampled from both the natural temporal
+distribution and windows relevant to the mechanisms under study, including routine stages and
+intervals after a personal object is dropped. Each navigation query is augmented
+with a start pose, candidate inspection viewpoints, a path budget, and frozen
+success conditions. The patrol policy cannot access current object states,
+resident locations, hidden activities, or generator latents. Query-time activity
+and hidden transitions are retained only by the evaluator.
+
+\paragraph{Language tasks and release documentation.}
+EQA questions cover existence, location, temporal order, activity association,
+count, comparison, and compositional relations over the same time-indexed
+memories.
+Answers are evaluated against a normalized ontology, and questions requiring
+future evidence are excluded. VLN replaces the object label with a language goal
+whose referents and constraints are grounded in the same versioned scene history.
+The broader task annotations support studies beyond the prediction and navigation
+experiments emphasized in this paper. Across tracks, only memory representations,
+current-state beliefs, and resulting decisions differ between controlled methods.
+Dataset cards and audit summaries document source mappings, authored assumptions,
+physical validity, candidate coverage, and leakage tests.
+
+\paragraph{Splits and leakage checks.}
+Each 90-day history uses days 0--79 for training, days 80--84 for validation,
+and days 85--89 for testing. Complete temporal sequences remain within the same split so
+that no decision uses observations from a later time. Held-out homes are reserved for
+cross-scene evaluation; paired static/routine/random members remain in the same
+split. Near-duplicate queries and transition groups are assigned to splits as indivisible units.
+Serialized releases are checked for future timestamps, private event fields,
+answer-correlated filenames or indices, repeated event groups across splits,
+inconsistent paired variants, invalid physics, unreachable goals, and accidental
+patrol dependence on hidden state. Episode-level checks and mobility assignment
+are further specified in \appref{app:audit,app:mobility}.
+
+\subsection{Mobility Regimes and Task Protocols}
+
+Mobility labels are used only for stratified evaluation and are hidden from the
+agent.
+
+\begin{table}[!htbp]
+\caption{Mobility regimes in \evolvingworldbench{}.}
+\label{tab:mobility-regimes}
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabularx}{\linewidth}{lXXX}
+\toprule
+\textbf{Regime} & \textbf{Mechanism} & \textbf{Frozen signal} & \textbf{Role}\\
+\midrule
+Stable/rare & Infrequent events & Home/return tendency & Persistence control\\
+Routine & Activity state machine & Chain-specific locations & Routine prediction\\
+Personal & Placed/carried lifecycle & Owner placement habit & Long-term memory\\
+Irregular & Affordance sampling & Affordance only & Uncertainty control\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{table}[!htbp]
+\caption{Prediction and navigation protocols in \evolvingworldbench{}.}
+\label{tab:tasks}
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabularx}{\linewidth}{cXXX}
+\toprule
+& \textbf{Task} & \textbf{Decision signal} & \textbf{Primary measure}\\
+\midrule
+P   & Current-state prediction & Region/receptacle belief & R@$k$ / NLL\\
+N1  & Predictive navigation & Event-filtered belief & First-Inspection SR\\
+N2  & Belief-guided search & Full belief + cost & Search SR / cost\\
+N3  & Evidence-aware replanning & Updated posterior & Recovery SR\\
+N4  & Online-dynamic navigation & Arrival-time belief & Online Recovery SR\\
+N5  & Cross-scene generalization & Any protocol above & Held-out SR\\
+\bottomrule
+\end{tabularx}
+\end{table}
+\FloatBarrier

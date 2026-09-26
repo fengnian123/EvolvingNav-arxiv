@@ -1,0 +1,249 @@
+\subsection{Main Results}
+\label{sec:results}
+
+\paragraph{Comparison across embodied benchmarks.}
+
+\begin{table*}[!htbp]
+\caption{Cross-benchmark comparison (\%). 
+$\pm$ denotes standard deviation over five seeds.}
+\label{tab:crossbench}
+\centering
+\scriptsize
+\setlength{\tabcolsep}{4.0pt}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lcccccccc}
+\toprule
+& \multicolumn{2}{c}{\textbf{FindingDory}} &
+\multicolumn{3}{c}{\textbf{GOAT-Bench}} &
+\multicolumn{3}{c}{\textbf{\evolvingworldbench{}}}\\
+\cmidrule(lr){2-3}\cmidrule(lr){4-6}\cmidrule(lr){7-9}
+\textbf{Method} & \textbf{HL-SR $\uparrow$} & \textbf{HL-SPL $\uparrow$} &
+\textbf{SR $\uparrow$} & \textbf{SPL $\uparrow$} &
+\textbf{Repeat-SR $\uparrow$} & \textbf{First-Inspection SR $\uparrow$} &
+\textbf{Search SR $\uparrow$} & \textbf{SPL $\uparrow$}\\
+\midrule
+\rowcolor{tblnav}\multicolumn{9}{c}{\emph{Open-vocabulary and lifelong navigation}}\\
+VLFM \citep{yokoyama2024vlfm} & 13.42 & 10.86 & 15.79 & 5.45 & 11.82 & 20.65 & 28.36 & 24.67\\
+ZSON \citep{majumdar2022zson} & 27.89 & 21.81 & 29.64 & 2.45 & 16.37 & 26.84 & 32.13 & 28.55\\
+FindingDory Agent \citep{yadav2025findingdory} & \textbf{\paperreported{52.44}} & \textbf{40.92} & \na & \na & \na & \na & \na & \na\\
+LagMemo GLUE \citep{zhou2025lagmemo} & 32.79 & 23.25 & 20.61 & 1.74 & 11.27 & 30.18 & 42.27 & 33.82\\
+\midrule
+\rowcolor{tblmemory}\multicolumn{9}{c}{\emph{Structured spatio-temporal memory}}\\
+HOV-SG \citep{werby2024hovsg} & 21.47 & 15.20 & 28.37 & 2.23 & 12.38 & 36.46 & 52.32 & 40.61\\
+DynaMem \citep{liu2024dynamem} & 30.30 & 22.78 & 14.54 & 1.71 & 15.79 & 45.33 & 71.94 & 56.83\\
+\midrule
+\rowcolor{tblpredict}\multicolumn{9}{c}{\emph{Predictive world and state modeling}}\\
+SLaTe-PRO \citep{patel2023routine} & 18.18 & 14.53 & 9.41 & 0.99 & 6.38 & 13.00 & 36.33 & 26.37\\
+SGM+NEP \citep{kurenkov2023dynamic} & 34.20 & 19.48 & 10.67 & 1.64 & 2.56 & 27.26 & 41.82 & 37.00\\
+FlowMaps \citep{argenziano2026flowmaps} & 13.03 & 10.24 & 25.07 & 1.32 & 7.25 & 14.33 & 32.67 & 17.35\\
+PredictiveGraphs \citep{saavedraruiz2026predictivegraphs} & 24.24 & 13.50 & 10.27 & 1.80 & 7.48 & 36.18 & 43.67 & 40.36\\
+\midrule
+\rowcolor{tblours} & \textbf{53.22} & \textbf{38.83} &
+\textbf{35.43} & \textbf{12.98} & \textbf{19.31} & \textbf{61.32} &
+\textbf{86.18} & \textbf{70.15}\\
+\rowcolor{tblours}\multirow{-2}{*}{\textbf{\evolvingworldnav{} (ours)}} & $\pm 3.87$ & $\pm 2.43$ & $\pm 2.16$ &
+$\pm 0.92$ & $\pm 0.68$ & $\pm 3.235$ & $\pm 2.07$ & $\pm 1.74$\\
+\bottomrule
+\end{tabular}
+}
+\vspace{1pt}
+
+\parbox{\textwidth}{\scriptsize
+\textsuperscript{PR} Paper-reported under the cited native protocol; unmarked
+baseline scores are our reproductions under the method-preserving protocol in
+\appref{app:experimental-setup}.}
+\end{table*}
+
+\evolvingworldnav{} performs strongly across FindingDory, GOAT-Bench, and
+\evolvingworldbench{} (\cref{tab:crossbench}). On \evolvingworldbench{} N1--N5,
+First-Inspection SR increases from 45.33\% (DynaMem) to 61.32\%, and Search SR
+from 71.94\% to 86.18\%. On FindingDory, it achieves the highest HL-SR
+(53.22\%) among the listed methods and the second-highest HL-SPL (38.83\%),
+behind FindingDory Agent (40.92\%). The gains on \evolvingworldbench{} show the benefit of predictive belief under
+hidden world evolution; results on FindingDory and GOAT-Bench indicate broader
+applicability to embodied navigation.
+
+\paragraph{Online navigation under execution-time dynamics.}
+\Cref{fig:p4d_case_study} shows how a routine-conditioned belief avoids an
+obsolete last-seen location. To isolate the dynamic closed loop from episodes
+in which motion is permitted but no transition is scheduled, \cref{tab:n4-online}
+reports the same preselected N4 episodes for every method, with a target
+transition scheduled inside a common, fixed post-query window.
+
+\begin{figure}[!t]
+    \centering
+    \includegraphics[width=\linewidth]{figures/P4D_CaseStudy.pdf}
+    \caption{Predictive, last-seen, and nearest-first search on \evolvingworldbench{}.}
+    \label{fig:p4d_case_study}
+\end{figure}
+
+\begin{table*}[!t]
+\centering
+\caption{N4 online-dynamic navigation with execution-time target motion.}
+\label{tab:n4-online}
+\scriptsize
+\setlength{\tabcolsep}{8pt}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Method} & \textbf{Dynamic SR $\uparrow$} &
+\makecell{\textbf{Online Recovery}\\\textbf{SR $\uparrow$}} &
+\makecell{\textbf{Excess Distance}\\\textbf{(m) $\downarrow$}} &
+\makecell{\textbf{Revisit Success}\\\textbf{$\uparrow$}}\\
+\midrule
+SLaTe-PRO \citep{patel2023routine} & 34.7 & 21.5 & 18.9 & 8.7\\
+SGM+NEP \citep{kurenkov2023dynamic} & 41.3 & 27.8 & 15.6 & 12.4\\
+FlowMaps \citep{argenziano2026flowmaps} & 29.6 & 18.9 & 22.4 & 6.5\\
+PredictiveGraphs \citep{saavedraruiz2026predictivegraphs} & 46.8 & 36.7 & 13.2 & 18.9\\
+\rowcolor{tblours}\textbf{\evolvingworldnav{} (ours)} &
+\textbf{65.2} & \textbf{58.7} & \textbf{8.4} & \textbf{32.6}\\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+Relative to PredictiveGraphs, \evolvingworldnav{} improves Dynamic SR by 18.4
+points and Online Recovery SR by 22.0 points, while reducing excess distance by
+4.8\,m and increasing successful revisits by 13.7 points. These results
+support the execution-time contribution: current-time propagation and time-valid
+evidence rounds let the agent recover after a target moves, while candidate
+reopening turns revisits into useful actions rather than permanent exclusions.
+
+\begin{wraptable}[7]{r}{0.63\linewidth}
+\vspace{-0.7\baselineskip}
+\caption{Primary LYNX M20 search results.}
+\label{tab:real-main}
+\centering
+\scriptsize
+\setlength{\tabcolsep}{2.2pt}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{@{}lrrrrrr@{}}
+\toprule
+\textbf{Method} &
+\makecell{\textbf{First-Inspection}\\\textbf{SR $\uparrow$}} &
+\makecell{\textbf{Search}\\\textbf{SR $\uparrow$}} &
+\makecell{\textbf{Recovery}\\\textbf{SR $\uparrow$}} &
+\makecell{\textbf{Dist.}\\\textbf{(m) $\downarrow$}} &
+\makecell{\textbf{Time}\\\textbf{(s) $\downarrow$}} &
+\makecell{\textbf{Inspect.}\\\textbf{$\downarrow$}} \\
+\midrule
+Last Seen + Search & 17.2 & 26.6 & 12.8 & 56.2 & 284 & 2.19 \\
+Time Frequency & 21.9 & 31.3 & 14.0 & 52.9 & 277 & 2.05 \\
+Retrieval + Reasoning & 26.6 & 37.5 & 17.1 & 50.3 & 281 & 2.03 \\
+\rowcolor{tblours}\textbf{\evolvingworldnav{}} &
+\textbf{34.4} & \textbf{48.4} & \textbf{24.3} &
+\textbf{43.8} & \textbf{248} & \textbf{1.84} \\
+\bottomrule
+\end{tabular}%
+}
+\end{wraptable}
+
+\paragraph{Generalization and physical deployment.}
+Across five benchmark tasks, \evolvingworldnav{} leads on seven of ten metrics (\cref{tab:domains}).
+Across 64 matched M20 trials, the agent improves both success and
+efficiency (\cref{tab:real-main}); details are in \appref{app:real-world-eval}.
+
+Across these evaluations, the gains appear at three levels: cross-benchmark
+results improve initial destination selection, N4 isolates recovery under
+execution-time motion, and robot trials translate the same belief interface
+into shorter paths and fewer inspections. Together, these results suggest that the gains extend beyond
+benchmark-specific exploration or controller choice.
+
+\paragraph{Temporal structure.}
+Under paired controls, the SR gain over Last Seen is 22.36 points in routine
+worlds but 6.93 points under random transitions (\cref{tab:worlds}).
+The agent trails Last Seen in static worlds and Direct Transformer under random
+transitions, locating its strongest advantage in learnable temporal regularity.
+Across five frozen VLMs, paired Search SR gains over Last Seen range from 14.91
+to 25.93 points (20.90 on average; \cref{tab:foundation_models}). Matched
+tools, prompts, episodes, and budgets support transfer across controllers.
+
+\subsection{Ablation Studies}
+\label{sec:ablations}
+
+\paragraph{Core components.}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\columnwidth]{figures/core_component_ablation_grouped.pdf}
+    \caption{Core component ablation; error bars show five-seed standard deviations.}
+    \label{fig:module_ablation}
+\end{figure}
+
+The full agent achieves First-Inspection SR of 62.17\%, Search SR of 85.33\%, and
+SPL of 70.87\%, with 3.95 inspections (\cref{fig:module_ablation}). Without predictive
+belief, First-Inspection SR falls to 12.51\%; Latest Observation Only reduces
+Search SR by 20.91 points, indicating that persistent history informs both
+initial destination selection and recovery. Direct candidate prediction reduces
+First-Inspection/Search SR by 13.84/15.75 points, supporting the persistence--relocation
+factorization. Top-1-only search reduces Search SR by 22.41 points, while removing
+evidence updates reduces it by 42.02 points and increases inspections to 6.48.
+These results support retaining alternative hypotheses and revising them online
+to improve search within a fixed action budget.
+The pattern separates the roles of the components: predictive belief chooses
+where inspection begins, the full distribution preserves fallback hypotheses,
+and evidence updating converts new views into route changes. Because No
+Evidence Update uses the same predictor, its gap isolates the action-time
+filter rather than improved offline state classification.
+
+\begin{wraptable}{r}{0.63\linewidth}
+\vspace{-0.7\baselineskip}
+\caption{Negative-evidence update ablation.}
+\label{tab:evidence-update-ablation}
+\centering
+\scriptsize
+\begin{tabularx}{\linewidth}{@{}l*{4}{>{\centering\arraybackslash}X}@{}}
+\toprule
+\textbf{Update rule} & \textbf{Rank $\downarrow$} & \textbf{Top-1 $\uparrow$} &
+\textbf{NLL $\downarrow$} & \textbf{ECE $\downarrow$}\\
+\midrule
+No Update & 5.82 & 62.98 & 2.838 & 0.172\\
+Hard Removal & 10.09 & 42.69 & 11.514 & 0.204\\
+Bayesian Update & 5.25 & 64.71 & \textbf{1.497} & 0.151\\
+\rowcolor{tblours}\textbf{Bayesian + Calibration} &
+\textbf{4.96} & \textbf{66.93} & 1.530 & \textbf{0.130}\\
+\bottomrule
+\end{tabularx}
+\end{wraptable}
+
+\paragraph{Evidence update and calibration.}
+Hard Removal degrades all four metrics (\cref{tab:evidence-update-ablation};
+Top-1 in percent). Our calibrated update achieves the best rank, Top-1, and
+ECE, although uncalibrated Bayesian updating has slightly lower NLL. These
+results support soft, visibility-conditioned evidence over irreversible
+removal after a missed detection.
+
+
+\begin{wraptable}{r}{0.63\linewidth}
+\vspace{-0.7\baselineskip}
+\caption{Current-state prediction on temporal and LOSO splits.}
+\label{tab:predictors}
+\centering
+\scriptsize
+\setlength{\tabcolsep}{2.3pt}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lrrrrrr}
+\toprule
+& \multicolumn{3}{c}{\textbf{Temporal}} & \multicolumn{3}{c}{\textbf{LOSO}}\\
+\cmidrule(lr){2-4}\cmidrule(lr){5-7}
+\textbf{Predictor} & \textbf{Top-1 $\uparrow$} & \textbf{MRR $\uparrow$} & \textbf{NLL $\downarrow$}
+& \textbf{Top-1 $\uparrow$} & \textbf{MRR $\uparrow$} & \textbf{NLL $\downarrow$}\\
+\midrule
+Last Seen & 0.00 & 0.1699 & 3.4011 & 50.00 & 0.5850 & 1.8825\\
+Time Frequency & 33.85 & 0.5462 & 1.8400 & 49.53 & 0.6166 & 1.6455\\
+Direct Transformer & 34.16 & 0.5586 & 1.7292 & 51.71 & 0.6884 & 1.3157\\
+Shared semantic prior & 36.02 & 0.5957 & 1.5766 & 59.47 & 0.7462 & 1.0448\\
+\rowcolor{tblours} & \textbf{38.24} & \textbf{0.5971} & \textbf{1.4925}
+& \textbf{61.18} & \textbf{0.7523} & \textbf{0.9778}\\
+\rowcolor{tblours}\multirow{-2}{*}{\textbf{Ours}}
+& $\pm1.42$ & $\pm0.0291$ & $\pm0.0867$
+& $\pm1.53$ & $\pm0.0176$ & $\pm0.0228$\\
+\bottomrule
+\end{tabular}%
+}
+\end{wraptable}
+
+\paragraph{Prediction quality and transfer.}
+Relative to the Direct Transformer, our predictor improves Top-1 by 4.08/9.47 points and reduces
+NLL by 0.2367/0.3379 on temporal/LOSO splits. It also exceeds the semantic
+prior, supporting temporal structure beyond location frequency. The larger LOSO
+gain supports transfer beyond scene-specific destination statistics, while the
+lower NLL indicates improved probabilistic prediction. Additional ablations
+are in \appref{app:experimental-results}.
