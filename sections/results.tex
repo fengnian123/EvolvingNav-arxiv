@@ -241,8 +241,9 @@ Shared semantic prior & 36.02 & 0.5957 & 1.5766 & 59.47 & 0.7462 & 1.0448\\
 \end{wraptable}
 
 \paragraph{Prediction quality and transfer.}
-Relative to the Direct Transformer, our predictor improves Top-1 by 4.08/9.47 points and reduces
-NLL by 0.2367/0.3379 on temporal/LOSO splits. It also exceeds the semantic
+Relative to the Direct Transformer, our predictor improves Top-1 by 4.08 points
+on the temporal split and 9.47 points on LOSO; NLL decreases by 0.2367 and
+0.3379, respectively. It also exceeds the semantic
 prior, supporting temporal structure beyond location frequency. The larger LOSO
 gain supports transfer beyond scene-specific destination statistics, while the
 lower NLL indicates improved probabilistic prediction. Additional ablations
