@@ -100,6 +100,7 @@ PredictiveGraphs \citep{saavedraruiz2026predictivegraphs} & 46.8 & 36.7 & 13.2 &
 \end{tabular}
 \end{table}
 
+\Needspace{5\baselineskip}
 Relative to PredictiveGraphs, \evolvingworldnav{} improves Dynamic SR by 18.4
 points and Online Recovery SR by 22.0 points, while reducing excess distance by
 4.8\,m and increasing successful revisits by 13.7 points. These results
@@ -116,7 +117,6 @@ Across five frozen VLMs, paired Search SR gains over Last Seen range from 14.91
 to 25.93 points (20.90 on average; \cref{tab:foundation_models}). Matched
 tools, prompts, episodes, and budgets support transfer across controllers.
 
-\Needspace{0.30\textheight}
 \noindent\begin{minipage}[t]{0.34\linewidth}
 \vspace{0pt}
 \paragraph{Generalization and physical deployment.}
@@ -163,7 +163,7 @@ benchmark-specific exploration or controller choice.
 \label{sec:ablations}
 
 \paragraph{Core components.}
-\begin{figure}[H]
+\begin{figure}[!t]
     \centering
     \includegraphics[width=\columnwidth]{figures/core_component_ablation_grouped.pdf}
     \caption{Core component ablation; error bars show five-seed standard deviations.}

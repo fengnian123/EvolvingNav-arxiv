@@ -47,6 +47,13 @@ support the use of historical regularity over category frequency or spatial
 convenience.
 
 \subsection{World Construction and Past-Only Evaluation}
+\begin{figure}[!t]
+    \centering
+    \includegraphics[width=0.50\textwidth]{figures/dataset-generate.pdf}
+    \caption{Construction of \evolvingworldbench{}.}
+    \label{fig:p4dbench-generation}
+\end{figure}
+
 Human traces constrain generation; source trajectories are not copied
 (\cref{fig:p4dbench-generation}). CASAS supplies longitudinal occupancy and
 timing statistics; ARAS and OPPORTUNITY add activity-context coverage; and
@@ -56,15 +63,6 @@ separately as simulated long-horizon routine evidence \citep{patel2023routine}.
 Event records preserve source identifiers and distinguish measured,
 environment-derived, simulated, and benchmark-authored quantities
 (\appref{app:benchmark-construction}).
-
-\Needspace{0.34\textheight}
-\begin{wrapfigure}{r}{0.50\textwidth}
-    \centering
-    \vspace{-6pt}
-    \includegraphics[width=\linewidth]{figures/dataset-generate.pdf}
-    \caption{Construction of \evolvingworldbench{}.}
-    \label{fig:p4dbench-generation}
-\end{wrapfigure}
 
 Across 54 HSSD scenes \citep{khanna2024hssd}, household habits and stochastic
 exceptions generate chronological histories. Stable, routine,
