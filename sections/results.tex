@@ -77,7 +77,7 @@ transition scheduled inside a common, fixed post-query window.
     \label{fig:p4d_case_study}
 \end{figure}
 
-\begin{table*}[!t]
+\begin{table}[H]
 \centering
 \caption{N4 online-dynamic navigation with execution-time target motion.}
 \label{tab:n4-online}
@@ -98,7 +98,7 @@ PredictiveGraphs \citep{saavedraruiz2026predictivegraphs} & 46.8 & 36.7 & 13.2 &
 \textbf{65.2} & \textbf{58.7} & \textbf{8.4} & \textbf{32.6}\\
 \bottomrule
 \end{tabular}
-\end{table*}
+\end{table}
 
 Relative to PredictiveGraphs, \evolvingworldnav{} improves Dynamic SR by 18.4
 points and Online Recovery SR by 22.0 points, while reducing excess distance by
@@ -107,9 +107,26 @@ support the execution-time contribution: current-time propagation and time-valid
 evidence rounds let the agent recover after a target moves, while candidate
 reopening turns revisits into useful actions rather than permanent exclusions.
 
-\begin{wraptable}[11]{r}{0.63\linewidth}
-\vspace{-0.7\baselineskip}
-\caption{Primary LYNX M20 search results.}
+\paragraph{Temporal structure.}
+Under paired controls, the SR gain over Last Seen is 22.36 points in routine
+worlds but 6.93 points under random transitions (\cref{tab:worlds}).
+The agent trails Last Seen in static worlds and Direct Transformer under random
+transitions, locating its strongest advantage in learnable temporal regularity.
+Across five frozen VLMs, paired Search SR gains over Last Seen range from 14.91
+to 25.93 points (20.90 on average; \cref{tab:foundation_models}). Matched
+tools, prompts, episodes, and budgets support transfer across controllers.
+
+\Needspace{0.30\textheight}
+\noindent\begin{minipage}[t]{0.34\linewidth}
+\vspace{0pt}
+\paragraph{Generalization and physical deployment.}
+Across five benchmark tasks, \evolvingworldnav{} leads on seven of ten metrics (\cref{tab:domains}).
+Across 64 matched M20 trials, the agent improves both success and
+efficiency (\cref{tab:real-main}); details are in \appref{app:real-world-eval}.
+\end{minipage}\hfill
+\begin{minipage}[t]{0.63\linewidth}
+\vspace{0pt}
+\captionof{table}{Primary LYNX M20 search results.}
 \label{tab:real-main}
 \centering
 \scriptsize
@@ -134,27 +151,13 @@ Retrieval + Reasoning & 26.6 & 37.5 & 17.1 & 50.3 & 281 & 2.03 \\
 \bottomrule
 \end{tabular}%
 }
-\end{wraptable}
-
-\paragraph{Generalization and physical deployment.}
-Across five benchmark tasks, \evolvingworldnav{} leads on seven of ten metrics (\cref{tab:domains}).
-Across 64 matched M20 trials, the agent improves both success and
-efficiency (\cref{tab:real-main}); details are in \appref{app:real-world-eval}.
+\end{minipage}\par\medskip
 
 Across these evaluations, the gains appear at three levels: cross-benchmark
 results improve initial destination selection, N4 isolates recovery under
 execution-time motion, and robot trials translate the same belief interface
 into shorter paths and fewer inspections. Together, these results suggest that the gains extend beyond
 benchmark-specific exploration or controller choice.
-
-\paragraph{Temporal structure.}
-Under paired controls, the SR gain over Last Seen is 22.36 points in routine
-worlds but 6.93 points under random transitions (\cref{tab:worlds}).
-The agent trails Last Seen in static worlds and Direct Transformer under random
-transitions, locating its strongest advantage in learnable temporal regularity.
-Across five frozen VLMs, paired Search SR gains over Last Seen range from 14.91
-to 25.93 points (20.90 on average; \cref{tab:foundation_models}). Matched
-tools, prompts, episodes, and budgets support transfer across controllers.
 
 \subsection{Ablation Studies}
 \label{sec:ablations}
