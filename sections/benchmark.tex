@@ -47,13 +47,6 @@ support the use of historical regularity over category frequency or spatial
 convenience.
 
 \subsection{World Construction and Past-Only Evaluation}
-\begin{figure}[!t]
-    \centering
-    \includegraphics[width=0.50\textwidth]{figures/dataset-generate.pdf}
-    \caption{Construction of \evolvingworldbench{}.}
-    \label{fig:p4dbench-generation}
-\end{figure}
-
 Human traces constrain generation; source trajectories are not copied
 (\cref{fig:p4dbench-generation}). CASAS supplies longitudinal occupancy and
 timing statistics; ARAS and OPPORTUNITY add activity-context coverage; and
@@ -71,6 +64,8 @@ owner-specific habits, and uncertainty (\cref{tab:mobility-regimes}); regime lab
 remain hidden from the agent. Habitat replay ensures semantically valid, collision-free placements
 and reachable inspection viewpoints.
 
+\noindent\begin{minipage}[t]{0.47\linewidth}
+\vspace{0pt}
 Patrols collect visibility-qualified RGB-D observations using only maps, time, travel cost,
 and observed history. Queries expose only observations available by the query
 time, the last supported
@@ -81,3 +76,11 @@ query/transition groups. Audits cover temporal and metadata leakage, split overl
 paired-world consistency, physical validity, and patrol access to hidden state.
 Stratification covers mobility, transition, staleness, spatial difficulty, and
 generalization.
+\end{minipage}\hfill
+\begin{minipage}[t]{0.50\linewidth}
+\vspace{0pt}
+\centering
+\includegraphics[width=\linewidth]{figures/dataset-generate.pdf}
+\captionof{figure}{Construction of \evolvingworldbench{}.}
+\label{fig:p4dbench-generation}
+\end{minipage}\par\medskip
