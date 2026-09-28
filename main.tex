@@ -31,6 +31,7 @@
 \usepackage{etoolbox}
 \usepackage{needspace}
 \usepackage{url}
+\usepackage{tikz}
 
 \newcommand{\pfdnav}{\textsc{P4D-Nav}}
 \newcommand{\evolvingworldbench}{\textsc{EvoWorld-Bench}}
@@ -44,6 +45,16 @@
 \definecolor{tblmemory}{RGB}{232,241,249}
 \definecolor{tblpredict}{RGB}{242,237,248}
 \newcommand{\hdr}[1]{\colorbox{tblheader}{\strut #1}}
+\newcommand{\homepageicon}{%
+  \tikz[baseline=-0.15ex,scale=0.15]{%
+    \draw[line width=0.7pt] (0,0) circle (1);
+    \draw[line width=0.6pt] (0,-1) arc[start angle=-90,end angle=90,x radius=0.45,y radius=1];
+    \draw[line width=0.6pt] (0,-1) arc[start angle=270,end angle=90,x radius=0.45,y radius=1];
+    \draw[line width=0.6pt] (-1,0)--(1,0);
+    \draw[line width=0.6pt] (-0.86,0.5)--(0.86,0.5);
+    \draw[line width=0.6pt] (-0.86,-0.5)--(0.86,-0.5);
+  }%
+}
 
 \newcommand{\appref}[1]{%
   \begingroup
@@ -78,6 +89,7 @@
 \contribution[\ast]{Equal contribution}
 \contribution[\ddagger]{Corresponding authors}
 \contribution[\dagger]{Project lead}
+\date{\today}
 
 \abstract{
 Persistent spatial memory enables embodied agents to navigate familiar environments across repeated visits. However, targets may move while unobserved, including during navigation, making remembered locations unreliable by the time an agent arrives. Despite advances in memory retrieval and state prediction, accounting for continued hidden world evolution and revising beliefs under limited visibility remain challenging.
@@ -92,29 +104,28 @@ Paired experiments show the clearest gains under learnable temporal patterns, wh
 
 \par\smallskip\noindent
 \renewcommand{\arraystretch}{1.1}
-\begin{tabular}{rl}
+\begin{tabular}{@{}r@{\quad}l@{\quad}l@{}}
+    \homepageicon & \textbf{Homepage} & \url{https://dcdmllm.github.io/EvolvingNav/} \\
     \raisebox{-0.2em}{\includegraphics[height=1.1em]{assets/github-logo.pdf}} &
-    \textbf{GitHub:} \url{https://dcdmllm.github.io/EvolvingNav/}
+    \textbf{Code} & \url{https://github.com/DCDmllm/EvolvingNav}
 \end{tabular}
 }
 
 \begin{document}
 % Institutional logos on the first page.
 \noindent
-\noindent
-\begin{minipage}[c][1.35cm][c]{0.68\textwidth}
-    \vspace{0.15cm}
-    \raisebox{-0.40cm}{
-    \adjustbox{width=4cm,height=0.55cm}{%
-        \includegraphics{assets/deeprobot.pdf}
-    }
-}
+\begin{minipage}[c][1.1cm][c]{0.62\textwidth}
+    \includegraphics[height=1.0cm]{assets/zju.pdf}%
+    \hspace{0.28cm}%
+    \includegraphics[width=3.6cm]{assets/deeprobot.pdf}%
 \end{minipage}%
-\begin{minipage}[c][1.35cm][c]{0.32\textwidth}
+\begin{minipage}[c][1.1cm][c]{0.38\textwidth}
     \raggedleft
-    \raisebox{0.05cm}{\includegraphics[height=1.2cm]{assets/zju.pdf}}
+    \includegraphics[height=1.0cm]{assets/ucsd.pdf}%
+    \hspace{0.25cm}%
+    \includegraphics[height=1.0cm]{assets/cuhk.pdf}%
 \end{minipage}\par
-\vspace{-0.15cm}
+\vspace{-0.08cm}
 \noindent\rule{\textwidth}{0.4pt}\par
 \vspace{0.08cm}
 \maketitle
