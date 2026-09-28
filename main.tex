@@ -46,7 +46,7 @@
 \definecolor{tblpredict}{RGB}{242,237,248}
 \newcommand{\hdr}[1]{\colorbox{tblheader}{\strut #1}}
 \newcommand{\homepageicon}{%
-  \tikz[baseline=-0.15ex,scale=0.15]{%
+  \tikz[baseline=-0.2em,scale=0.2]{%
     \draw[line width=0.7pt] (0,0) circle (1);
     \draw[line width=0.6pt] (0,-1) arc[start angle=-90,end angle=90,x radius=0.45,y radius=1];
     \draw[line width=0.6pt] (0,-1) arc[start angle=270,end angle=90,x radius=0.45,y radius=1];
@@ -103,10 +103,10 @@ In simulation and real-robot experiments, \textbf{\evolvingworldnav{}} improves 
 Paired experiments show the clearest gains under learnable temporal patterns, while ablations demonstrate the value of preserving uncertainty and incorporating visibility-aware evidence.
 
 \par\smallskip\noindent
-\renewcommand{\arraystretch}{1.1}
-\begin{tabular}{@{}r@{\quad}l@{\quad}l@{}}
-    \homepageicon & \textbf{Homepage} & \url{https://dcdmllm.github.io/EvolvingNav/} \\
-    \raisebox{-0.2em}{\includegraphics[height=1.1em]{assets/github-logo.pdf}} &
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{@{}c@{\hspace{0.85em}}l@{\quad}l@{}}
+    \makebox[1.3em][c]{\homepageicon} & \textbf{Homepage} & \url{https://dcdmllm.github.io/EvolvingNav/} \\[0.45em]
+    \makebox[1.3em][c]{\raisebox{-0.2em}{\includegraphics[height=1.2em]{assets/github-logo.pdf}}} &
     \textbf{Code} & \url{https://github.com/DCDmllm/EvolvingNav}
 \end{tabular}
 }
