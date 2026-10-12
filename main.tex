@@ -56,6 +56,16 @@
   }%
 }
 
+\newcommand{\blogicon}{%
+  \tikz[baseline=-0.2em,scale=0.2]{%
+    \draw[line width=0.7pt,line join=round] (-0.75,-1)--(0.75,-1)--(0.75,0.55)--(0.3,1)--(-0.75,1)--cycle;
+    \draw[line width=0.6pt] (0.3,1)--(0.3,0.55)--(0.75,0.55);
+    \draw[line width=0.6pt] (-0.45,0.3)--(0.4,0.3);
+    \draw[line width=0.6pt] (-0.45,-0.1)--(0.4,-0.1);
+    \draw[line width=0.6pt] (-0.45,-0.5)--(0.15,-0.5);
+  }%
+}
+
 \newcommand{\appref}[1]{%
   \begingroup
   \crefalias{section}{appendix}%
@@ -104,13 +114,14 @@ Paired experiments show the clearest gains under learnable temporal patterns, wh
 
 \par\smallskip\noindent
 \renewcommand{\arraystretch}{1.15}
-\begin{tabular}{@{}c@{\hspace{0.85em}}l@{\quad}l@{}}
+\begin{tabularx}{\linewidth}{@{}c@{\hspace{0.85em}}l@{\quad}>{\raggedright\arraybackslash}X@{}}
     \makebox[1.3em][c]{\homepageicon} & \textbf{Homepage} & \url{https://zju4embodiedai.github.io/EvolvingNav/} \\[0.45em]
     \makebox[1.3em][c]{\raisebox{-0.2em}{\includegraphics[height=1.2em]{assets/huggingface-logo.pdf}}} &
     \textbf{Demo} & \url{https://huggingface.co/spaces/ZJU4EmbodiedAI/EvolvingNav} \\[0.45em]
     \makebox[1.3em][c]{\raisebox{-0.2em}{\includegraphics[height=1.2em]{assets/github-logo.pdf}}} &
-    \textbf{Code} & \url{https://github.com/ZJU4EmbodiedAI/EvolvingNav}
-\end{tabular}
+    \textbf{Code} & \url{https://github.com/ZJU4EmbodiedAI/EvolvingNav} \\[0.45em]
+    \makebox[1.3em][c]{\blogicon} & \textbf{Blog} & \url{https://developer.deeprobotics.cn/research/articles/evolving-nav/index.html}
+\end{tabularx}
 }
 
 \begin{document}
