@@ -107,6 +107,8 @@ points and Online Recovery SR by 22.0 points, while reducing excess distance by
 support the execution-time contribution: current-time propagation and time-valid
 evidence rounds let the agent recover after a target moves, while candidate
 reopening turns revisits into useful actions rather than permanent exclusions.
+Matched controls in \appref{app:mechanism-controls} separately test arrival-time
+selection, learned propagation, and candidate reopening.
 
 \paragraph{Temporal structure.}
 Under paired controls, the SR gain over Last Seen is 22.36 points in routine
@@ -250,4 +252,6 @@ on the temporal split and 9.47 points on LOSO; NLL decreases by 0.2367 and
 prior, supporting temporal structure beyond location frequency. The larger LOSO
 gain supports transfer beyond scene-specific destination statistics, while the
 lower NLL indicates improved probabilistic prediction. Additional ablations
-are in \appref{app:experimental-results}.
+are in \appref{app:experimental-results}. A separate household-disjoint
+evaluation in \appref{app:unseen-households} tests transfer to unseen household
+dynamics rather than to later days of the same household.
